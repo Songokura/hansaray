@@ -523,3 +523,14 @@ ul,ol{list-style:none}
 @media (max-width:400px){.ftr-logos{gap:16px}}
 /* ссылки карточек торжеств - на одной линии */
 .ac-body{grid-template-rows:auto auto 1fr}.ac-body .lnk{align-self:end}
+/* медальон «О нас»: вращаем саму обёртку на своём слое - SVG растеризуется один раз, без перерисовки каждый кадр (06.11.2026) */
+.medal svg{animation:none}
+.medal{animation:medalSpin 160s linear infinite;will-change:transform;contain:strict}
+.medal.paused{animation-play-state:paused}
+@keyframes medalSpin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.medal{animation:none}}
+/* маски строк SplitText у заголовков: запас под хвосты у/р/д и надстрочные Й Ё, иначе clip срезает их (06.11.2026) */
+.h2>div[aria-hidden],.h3>div[aria-hidden]{padding:.12em 0 .2em;margin:-.12em 0 -.2em}
+/* счётчики: пересчёт раскладки не выходит за плитку */
+.num{contain:layout style}
+.glyph-warm{position:absolute;left:0;top:0;opacity:.01;pointer-events:none;white-space:nowrap;font:400 clamp(36px,3.7vw,58px)/1 var(--serif)}

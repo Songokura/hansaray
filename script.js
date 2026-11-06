@@ -557,12 +557,14 @@
       paths.forEach(function (p) { p.setAttribute('pathLength', '1'); p.style.strokeDasharray = '1'; p.style.strokeDashoffset = '1'; });
       G.to(paths, { strokeDashoffset: 0, duration: 1.6, ease: E, stagger: .06, scrollTrigger: { trigger: svg, start: 'top 85%', once: true } });
     });
-    /* цифры считают */
+    /* цифры считают; глифы цифр Prata прогреваем заранее, иначе на старте счётчиков рывок растеризации */
+    var nb = $('#about');
+    if (nb) { var wm = d.createElement('span'); wm.className = 'glyph-warm'; wm.setAttribute('aria-hidden', 'true'); wm.textContent = '0123456789'; nb.appendChild(wm); }
     $$('.cnt').forEach(function (el) {
       var to = +el.dataset.to, o = { v: 0 };
       G.to(o, {
         v: to, duration: 1.8, ease: E, scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-        onUpdate: function () { el.textContent = fmt(Math.round(o.v)); }
+        onUpdate: function () { var v = Math.round(o.v); if (v !== el._v) { el._v = v; el.textContent = fmt(v); } }
       });
     });
   }

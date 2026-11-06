@@ -91,6 +91,8 @@ ul,ol{list-style:none}
 /* порог бургера = порог оверлея меню = 1180px, считан по казахским подписям */
 @media (max-width:1180px){
   .burger{display:block}
+  /* навигация ушла в оверлей - правую группу прижимаем к краю */
+  .hdr-r{margin-left:auto}
   .hdr-tel span{display:none}
   .hdr-tel{padding:0;width:40px;height:40px;justify-content:center}
   .nav{position:fixed;inset:0;z-index:2;margin:0;flex-direction:column;justify-content:center;align-items:center;gap:22px;padding:calc(var(--hdr) + 16px) 16px 32px;overflow-y:auto;background:radial-gradient(120% 70% at 50% 0%,#2A1F2E,#0E0B12 70%) #0E0B12;font:400 30px/1.2 var(--serif);color:var(--ivory);transform:translateY(-102%);visibility:hidden;transition:transform .5s var(--ease),visibility 0s linear .5s}
@@ -510,3 +512,14 @@ ul,ol{list-style:none}
   .kicker{letter-spacing:.16em;gap:10px}
   .kicker::before,.head .kicker::after,.hero-txt .kicker::after{width:18px}
 }
+
+/* плавность прокрутки (06.11.2026): движущиеся слои - на своём композитном слое */
+.plate-in,.scene{will-change:transform}
+.plate-dim,.hero-dim{will-change:opacity}
+/* блок цифр: приписка «-нан астам» на телефоне - строкой под цифрой, иначе наезжает на соседнюю */
+.num{min-width:0}
+@media (max-width:760px){.num-sfx{display:block;margin:.3em 0 0;line-height:1.2}}
+@media (max-width:760px){.num b>span:first-child:not(.cnt){display:block;vertical-align:0;margin:0 0 .3em;line-height:1.2}.num b>span:first-child:empty{display:none}}
+@media (max-width:400px){.ftr-logos{gap:16px}}
+/* ссылки карточек торжеств - на одной линии */
+.ac-body{grid-template-rows:auto auto 1fr}.ac-body .lnk{align-self:end}

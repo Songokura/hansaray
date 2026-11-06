@@ -26,7 +26,9 @@
   var E = bez(.2, .7, .2, 1);
   var T1 = .2, T2 = .4, T3 = 1, STG = .08;
 
-  if (HAS) { G.registerPlugin(ST); if (window.SplitText) G.registerPlugin(window.SplitText); }
+  if (HAS) { G.registerPlugin(ST); if (window.SplitText) G.registerPlugin(window.SplitText); ST.config({ ignoreMobileResize: true }); }
+  /* телефон: фото не всплывают при прокрутке (решение владельца 06.11.2026) */
+  var MOB = window.matchMedia('(max-width:760px)').matches;
 
   /* ---------- плавная прокрутка ---------- */
   var lenis = null;
@@ -443,7 +445,7 @@
       .to(L.back, { scale: 1.07, duration: 1 }, 0);
     /* уход героя под первую плиту */
     var dim = $('.hero-dim') || (function () { var i = d.createElement('i'); i.className = 'plate-dim hero-dim'; pin.appendChild(i); return i; })();
-    G.timeline({ scrollTrigger: { trigger: '.plates', start: 'top bottom', end: 'top top', scrub: true } })
+    G.timeline({ scrollTrigger: { trigger: '.plates', start: 'top bottom', end: 'top top', scrub: .5 } })
       .to(dim, { opacity: .7, ease: 'none' }, 0)
       .fromTo(scene, { scale: 1 }, { scale: .94, ease: 'none', immediateRender: false }, 0);
   }
@@ -497,7 +499,7 @@
       var dim = d.createElement('i'); dim.className = 'plate-dim'; inner.appendChild(dim);
       if (!HAS || RM) return;
       var next = plates[i + 1] || $('#events');
-      G.timeline({ scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: true } })
+      G.timeline({ scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: .5 } })
         .to(inner, { scale: .93, ease: 'none' }, 0)
         .to(dim, { opacity: .6, ease: 'none' }, 0);
     });
@@ -507,7 +509,7 @@
   function lamps() {
     $$('.lamp').forEach(function (fig) {
       var sh = $('.shade', fig), gl = $('.glint', fig), pend = $('.pend', fig), img = $('img', fig);
-      if (!HAS || RM) { if (sh) sh.style.display = 'none'; return; }
+      if (!HAS || RM || MOB) { if (sh) sh.style.display = 'none'; if (gl) gl.style.display = 'none'; return; }
       var tl = G.timeline({ paused: true, defaults: { ease: E } });
       if (pend) {
         tl.from(pend, { y: -50, autoAlpha: 0, duration: .7 })
@@ -525,6 +527,7 @@
   function reveals() {
     if (!HAS || RM) return;
     var items = $$('.head .kicker, .head .lead, .split-txt > *:not(h2), .arch-card, .steps li, .rules, .offer, .num, .kt-txt > *, .halls-txt > *, .vip-head, .vip-card, .sk-foot > *, .form, .ct-info, .det figcaption, .tb-count, .lists-col');
+    if (MOB) items = items.filter(function (el) { return !el.matches('.arch-card, .vip-card') && !el.querySelector('img'); });
     items.forEach(function (el) { el.classList.add('rv'); });
     ST.batch(items, {
       start: 'top 88%', once: true,
@@ -539,13 +542,13 @@
     }
     /* шаги: линия прорисовывается */
     var steps = $('.steps');
-    if (steps) G.fromTo(steps, { '--line': 0 }, { '--line': 1, ease: 'none', scrollTrigger: { trigger: steps, start: 'top 80%', end: 'bottom 60%', scrub: true } });
+    if (steps) G.fromTo(steps, { '--line': 0 }, { '--line': 1, ease: 'none', scrollTrigger: { trigger: steps, start: 'top 80%', end: 'bottom 60%', scrub: .5 } });
     /* кухня: тарелки ложатся вокруг главного кадра */
     var dishes = $$('.kt-dish');
-    if (dishes.length) {
+    if (dishes.length && !MOB) {
       G.from(dishes, { scale: .4, rotation: -50, autoAlpha: 0, duration: T3, ease: E, stagger: .1, scrollTrigger: { trigger: '#kitchen', start: 'top 70%', once: true } });
       dishes.forEach(function (el, i) {
-        G.to(el, { y: (i % 2 ? -1 : 1) * (30 + i * 8), ease: 'none', scrollTrigger: { trigger: '#kitchen', start: 'top bottom', end: 'bottom top', scrub: true } });
+        G.to(el, { y: (i % 2 ? -1 : 1) * (30 + i * 8), ease: 'none', scrollTrigger: { trigger: '#kitchen', start: 'top bottom', end: 'bottom top', scrub: .8 } });
       });
     }
     /* значки предложений прорисовываются */
@@ -695,7 +698,7 @@
   });
   serve('b1', false);
   /* первая подача - когда стол виден */
-  if (HAS && !RM) ST.create({ trigger: table, start: 'top 75%', once: true, onEnter: function () { serve(curLv, true); } });
+  if (HAS && !RM && !MOB) ST.create({ trigger: table, start: 'top 75%', once: true, onEnter: function () { serve(curLv, true); } });
 
   /* ---------- лента VIP: стрелки ---------- */
   (function () {

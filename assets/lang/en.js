@@ -206,5 +206,6 @@ window.SITE_EN = {
   "ft.1": "Khan Saray - banquet hall · Saksaul - restaurant",
   "ft.addr": "Almaty, 128 Tole Bi St.",
   "ft.hours": "11:00 to 02:00",
+  "ft.photo": "Photo on the «As» card:",
   "mb.call": "Call"
 };

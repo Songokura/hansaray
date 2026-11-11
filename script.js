@@ -526,7 +526,7 @@
   var splits = [];
   function reveals() {
     if (!HAS || RM) return;
-    var items = $$('.head .kicker, .head .lead, .split-txt > *:not(h2), .arch-card, .steps li, .rules, .offer, .num, .kt-txt > *, .halls-txt > *, .vip-head, .vip-card, .sk-foot > *, .form, .ct-info, .det figcaption, .tb-count, .lists-col');
+    var items = $$('.head .kicker, .head .lead, .split-txt > *:not(h2), .arch-card, .steps li, .rules, .offer, .num, .kt-txt > *, .halls-txt > *, .vip-head, .vip-card, .sk-foot > *, .ny-inc li, .ny-card, .ny-video, .ml-media figure, .form, .ct-info, .det figcaption, .tb-count, .lists-col');
     if (MOB) items = items.filter(function (el) { return !el.matches('.arch-card, .vip-card') && !el.querySelector('img'); });
     items.forEach(function (el) { el.classList.add('rv'); });
     ST.batch(items, {
@@ -591,15 +591,14 @@
      МЕНЮ: стол на 12 персон, уровень меняет состав
      ================================================================ */
   var LV = {
-    b1: { seats: 12, sal: 3, cold: 3, hot: 2, bake: ['samsa', 'bread', 'tea'], bakeN: 4, drinks: [], price: '16 500' },
-    b2: { seats: 12, sal: 4, cold: 4, hot: 2, bake: ['samsa', 'bread', 'sweet', 'cake', 'tea', 'jug'], bakeN: 7, drinks: [], price: '19 500' },
-    b3: { seats: 12, sal: 5, cold: 4, hot: 3, bake: ['samsa', 'bread', 'sweet', 'cake', 'tea', 'citrus'], bakeN: 7, drinks: [], price: '22 000' },
-    b4: { seats: 12, sal: 5, cold: 5, hot: 2, bake: ['samsa', 'bread', 'sweet', 'cake', 'tea'], bakeN: 6, drinks: ['jug', 'bottle', 'bottle'], price: '24 000' },
-    b5: { seats: 12, sal: 5, cold: 5, hot: 4, bake: ['samsa', 'bread', 'sweet', 'cake', 'tea', 'citrus'], bakeN: 10, drinks: ['glass', 'bottle', 'glass', 'jug'], price: '29 000' },
+    b1: { seats: 12, sal: 3, cold: 3, hot: 1, bake: ['kurt', 'bread', 'tea'], bakeN: 4, drinks: [], price: '9 900', file: '9900' },
+    b2: { seats: 12, sal: 4, cold: 4, hot: 2, bake: ['bread', 'kurt', 'tea'], bakeN: 5, drinks: ['jug'], price: '14 500', file: '14500' },
+    b3: { seats: 12, sal: 5, cold: 4, hot: 2, bake: ['samsa', 'bread', 'cake', 'tea'], bakeN: 7, drinks: ['bottle'], price: '19 000', file: '19000' },
+    b4: { seats: 12, sal: 5, cold: 5, hot: 2, bake: ['samsa', 'bread', 'sweet', 'cake', 'tea'], bakeN: 6, drinks: ['bottle', 'glass', 'jug'], price: '24 000', file: '24000' },
     a1: { seats: 13, sal: 2, cold: 2, hot: 1, bake: ['samsa', 'bread', 'bread', 'tea'], bakeN: 6, drinks: [], price: '7 000 / 9 500', as: true },
     a2: { seats: 13, sal: 3, cold: 2, hot: 1, bake: ['samsa', 'bread', 'kurt', 'sweet', 'tea', 'jug'], bakeN: 14, drinks: [], price: '9 000 / 12 000', as: true }
   };
-  var HOTN = { b1: 2, b2: 2, b3: 2, b4: 2, b5: 2 };
+  var HOTN = { b1: 1, b2: 2, b3: 2, b4: 2 };
   var SAL = ['47', '50'], COLD = ['44', '46', '49', '51', '52'];
   var table = $('#table'), tbSvg = $('.tb-svg'), tbD = $('.tb-dishes');
   var curLv = 'b1', seatsDrawn = 0;
@@ -688,6 +687,12 @@
       ? 'Здравствуйте! Пришлите, пожалуйста, меню «Ас» на ' + c.price + ' тг на гостя.\nДата:\nЧисло гостей:'
       : 'Здравствуйте! Пришлите, пожалуйста, банкетное меню на ' + c.price + ' тг на гостя.\nДата:\nЧисло гостей:';
     $('#menuWa').href = 'https://wa.me/77079510510?text=' + encodeURIComponent(msg);
+    /* скачать меню пакета: постер Ballroom; у «Ас» постера нет */
+    var dlb = $('#menuDl');
+    if (dlb) {
+      dlb.hidden = !c.file;
+      if (c.file) { dlb.href = 'assets/menu/ballroom-' + c.file + '.jpg'; dlb.setAttribute('download', 'Han-Saray-Ballroom-' + c.file + '.jpg'); }
+    }
   }
   $$('.lv').forEach(function (b) { b.addEventListener('click', function () { if (b.dataset.lv !== curLv) serve(b.dataset.lv, true); }); });
   $$('.mtab').forEach(function (t) {
@@ -701,6 +706,35 @@
   serve('b1', false);
   /* первая подача - когда стол виден */
   if (HAS && !RM && !MOB) ST.create({ trigger: table, start: 'top 75%', once: true, onEnter: function () { serve(curLv, true); } });
+
+  /* ---------- видео: постер, немая петля в кадре, полный ролик со звуком по кнопке ---------- */
+  (function () {
+    var vids = $$('.vid'); if (!vids.length) return;
+    vids.forEach(function (box) {
+      var v = $('video', box), btn = $('.vid-play', box);
+      box._full = false;
+      v.addEventListener('playing', function () { box.classList.add('is-live'); });
+      btn.addEventListener('click', function () {
+        vids.forEach(function (o) { if (o !== box && o._full) { $('video', o).pause(); } });
+        box._full = true; box.classList.add('is-full');
+        v.loop = false; v.muted = false; v.controls = true;
+        v.src = box.dataset.full; v.load();
+        var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+      });
+    });
+    if (!('IntersectionObserver' in window) || RM) return;
+    var io = new IntersectionObserver(function (en) {
+      en.forEach(function (e) {
+        var box = e.target, v = $('video', box);
+        if (e.isIntersecting) {
+          if (box._full) return;
+          if (!v.getAttribute('src')) v.src = box.dataset.loop;
+          var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+        } else if (!v.paused) v.pause();
+      });
+    }, { threshold: .45 });
+    vids.forEach(function (b) { io.observe(b); });
+  })();
 
   /* ---------- лента VIP: стрелки ---------- */
   (function () {

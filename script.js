@@ -407,6 +407,8 @@
       var off = !en[0].isIntersecting;
       scene.classList.toggle('paused', off); pin.classList.toggle('paused', off);
     }).observe(pin);
+    var snow = $('.ny-snow');
+    if (snow) new IntersectionObserver(function (en) { snow.classList.toggle('paused', !en[0].isIntersecting); }).observe(snow);
     var medal = $('.medal');
     if (medal) new IntersectionObserver(function (en) { medal.classList.toggle('paused', !en[0].isIntersecting); }).observe(medal);
   }
@@ -431,7 +433,12 @@
       defaults: { ease: 'none' },
       scrollTrigger: {
         trigger: hero, start: 'top top', end: function () { return '+=' + window.innerHeight * 1.1; }, scrub: .6,
-        onUpdate: function (self) { if (self.progress > .02) lightOn(); }
+        onUpdate: function (self) {
+          var away = self.progress > .02;
+          /* сцена уходит: бесконечные SVG-анимации (искры, волна, качание) на паузу - они пересчитываются на главном потоке и отнимают кадры у прокрутки (16.11.2026) */
+          scene.classList.toggle('calm', away);
+          if (away) lightOn();
+        }
       }
     });
     heroTl
@@ -498,7 +505,7 @@
       var inner = $('.plate-in', p);
       var dim = d.createElement('i'); dim.className = 'plate-dim'; inner.appendChild(dim);
       if (!HAS || RM) return;
-      var next = plates[i + 1] || $('#events');
+      var next = plates[i + 1] || $('.plates').nextElementSibling;
       G.timeline({ scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: .5 } })
         .to(inner, { scale: .93, ease: 'none' }, 0)
         .to(dim, { opacity: .6, ease: 'none' }, 0);
@@ -840,7 +847,7 @@
     reveals();
     heroIntro();
     if (RM) lightOn();
-    else setTimeout(lightOn, 4600);
+    else setTimeout(lightOn, 3400);
     var q = (location.search.match(/[?&]lang=(ru|kk|en)/) || [])[1];
     var saved = null; try { saved = localStorage.getItem('hs-lang'); } catch (e) {}
     var l = q || saved;

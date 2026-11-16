@@ -9,7 +9,7 @@
   --sans:"Onest","Segoe UI",system-ui,-apple-system,sans-serif;
   --ease:cubic-bezier(.2,.7,.2,1);
   --t1:.2s; --t2:.4s; --t3:1s;
-  --wrap:1240px; --gut:clamp(16px,4vw,48px);
+  --wrap:1400px; /* = ширина шапки, края колонки совпадают (16.11.2026, было 1240) */ --gut:clamp(16px,4vw,48px);
   --hdr:76px;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -61,7 +61,8 @@ ul,ol{list-style:none}
 /* ---------- шапка ---------- */
 .hdr{position:fixed;inset:0 0 auto;z-index:50;height:var(--hdr);transition:background-color var(--t2) var(--ease),border-color var(--t2) var(--ease),transform var(--t2) var(--ease);border-bottom:1px solid transparent}
 .hdr.solid{background:rgba(14,11,18,.97);border-color:rgba(216,180,106,.16)}
-@media (hover:hover) and (pointer:fine){.hdr.solid{background:rgba(14,11,18,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}}
+/* без backdrop-filter: размытие под шапкой пересчитывалось каждый кадр прокрутки (16.11.2026) */
+@media (hover:hover) and (pointer:fine){.hdr.solid{background:rgba(14,11,18,.95)}}
 .hdr-in{height:100%;width:min(1400px,100% - 2*var(--gut));margin:auto;display:flex;align-items:center;gap:28px}
 .logo{flex:none;position:relative;z-index:3}
 .logo img{height:34px;width:auto}
@@ -619,3 +620,15 @@ ul,ol{list-style:none}
 .nw{white-space:nowrap}
 .small-hall .ticks li{color:var(--ink)}
 .small-hall .ticks{margin-top:22px}
+/* прокрутка (16.11.2026): сцена героя уходит - SVG-анимации на паузу, недорисованные линии дорисовываются сразу */
+.scene.calm .spark,.scene.calm .wave-run,.scene.calm .luster{animation-play-state:paused!important}
+.scene.calm .ln{transition:none!important}
+.ny-snow.paused{animation-play-state:paused}
+/* малый зал: фото клиента (16.11.2026) */
+.sh-media{position:relative}
+.sh-ph.has-img{display:block;background:none}
+.sh-ph img{width:100%;height:100%;object-fit:cover;display:block}
+.sh-inset{position:absolute;left:-6%;bottom:-10%;width:42%;border-radius:16px;overflow:hidden;box-shadow:0 0 0 6px var(--ivory),0 30px 50px -25px rgba(60,40,20,.55)}
+.sh-inset img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block}
+@media (max-width:760px){.sh-media{margin-bottom:12%}.sh-inset{left:auto;right:4%;bottom:-12%;width:44%}}
+.sh-txt .h2{margin-bottom:18px}

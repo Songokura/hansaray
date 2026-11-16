@@ -400,7 +400,7 @@
       ledIdx++; setLed(false);
     }, 2800);
   }
-  $('#lightBtn').addEventListener('click', lightOn);
+  var lb = $('#lightBtn'); if (lb) lb.addEventListener('click', lightOn);
 
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (en) {
@@ -591,12 +591,12 @@
      МЕНЮ: стол на 12 персон, уровень меняет состав
      ================================================================ */
   var LV = {
-    b1: { seats: 12, sal: 3, cold: 3, hot: 1, bake: ['kurt', 'bread', 'tea'], bakeN: 4, drinks: [], price: '9 900', file: '9900' },
-    b2: { seats: 12, sal: 4, cold: 4, hot: 2, bake: ['bread', 'kurt', 'tea'], bakeN: 5, drinks: ['jug'], price: '14 500', file: '14500' },
-    b3: { seats: 12, sal: 5, cold: 4, hot: 2, bake: ['samsa', 'bread', 'cake', 'tea'], bakeN: 7, drinks: ['bottle'], price: '19 000', file: '19000' },
-    b4: { seats: 12, sal: 5, cold: 5, hot: 2, bake: ['samsa', 'bread', 'sweet', 'cake', 'tea'], bakeN: 6, drinks: ['bottle', 'glass', 'jug'], price: '24 000', file: '24000' },
-    a1: { seats: 13, sal: 2, cold: 2, hot: 1, bake: ['samsa', 'bread', 'bread', 'tea'], bakeN: 6, drinks: [], price: '7 000 / 9 500', as: true },
-    a2: { seats: 13, sal: 3, cold: 2, hot: 1, bake: ['samsa', 'bread', 'kurt', 'sweet', 'tea', 'jug'], bakeN: 14, drinks: [], price: '9 000 / 12 000', as: true }
+    b1: { seats: 12, sal: 3, cold: 4, hot: 1, bake: ['kurt', 'bread', 'tea'], bakeN: 4, drinks: [], price: '9 900' },
+    b2: { seats: 12, sal: 3, cold: 6, hot: 2, bake: ['samsa', 'bread', 'tea'], bakeN: 5, drinks: ['jug'], price: '14 500' },
+    b3: { seats: 12, sal: 3, cold: 7, hot: 2, bake: ['samsa', 'bread', 'cake', 'tea'], bakeN: 9, drinks: ['bottle', 'jug'], price: '19 000' },
+    b4: { seats: 12, sal: 4, cold: 8, hot: 2, bake: ['samsa', 'bread', 'sweet', 'cake', 'tea'], bakeN: 6, drinks: ['bottle', 'glass', 'jug'], price: '24 000' },
+    a1: { seats: 13, sal: 2, cold: 2, hot: 1, bake: ['samsa', 'bread', 'bread', 'tea'], bakeN: 6, drinks: [], price: '8 000', as: true },
+    a2: { seats: 13, sal: 3, cold: 2, hot: 1, bake: ['samsa', 'bread', 'kurt', 'sweet', 'tea', 'jug'], bakeN: 14, drinks: [], price: '9 000 / 11 500', as: true }
   };
   var HOTN = { b1: 1, b2: 2, b3: 2, b4: 2 };
   var SAL = ['47', '50'], COLD = ['44', '46', '49', '51', '52'];

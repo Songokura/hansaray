@@ -159,6 +159,7 @@ window.SITE_EN = {
   "f.o6": "Other",
   "f.submit": "Send request via WhatsApp",
   "f.note": "The button opens WhatsApp with a ready message.",
+  "cx.h": "Complaints and suggestions",
   "ct.tel": "Phone",
   "ct.addrh": "Address",
   "ct.addr": "Almaty, 128 Tole Bi St.",

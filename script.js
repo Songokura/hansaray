@@ -761,6 +761,18 @@
     upd();
   })();
 
+  /* ---------- конверсии Google Ads ---------- */
+  function fireConv(key) {
+    if (typeof window.gtag_report_conversion !== 'function' || !window.AW_CONV) return;
+    var sendTo = window.AW_CONV[key];
+    if (sendTo) window.gtag_report_conversion(undefined, sendTo);
+  }
+  d.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"], a[href*="wa.me"]') : null;
+    if (!a) return;
+    fireConv(a.getAttribute('href').indexOf('tel:') === 0 ? 'phone' : 'contact');
+  });
+
   /* ---------- форма -> WhatsApp ---------- */
   (function () {
     var form = $('#zayavka'); if (!form) return;
@@ -778,6 +790,7 @@
         '\nПовод: ' + (occ ? occ.value : '') +
         '\nДата: ' + (form.elements.date.value || '') +
         '\nЧисло гостей: ' + (form.elements.guests.value || '');
+      fireConv('form');
       window.open('https://wa.me/77079510510?text=' + encodeURIComponent(msg), '_blank', 'noopener');
     });
   })();

@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Prata&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Prata&display=swap"></noscript>
-<link rel="stylesheet" href="styles.css?v=20261118-1">
+<link rel="stylesheet" href="styles.css?v=20261120-1">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":["Restaurant","LocalBusiness","EventVenue"],"name":"Хан Сарай","alternateName":["Khan Saray","Банкетный зал Хан Сарай","Ресторан Саксаул"],
 "description":"Банкетный зал на 350 гостей и ресторан Саксаул в центре Алматы: той, проводы невесты, юбилей, корпоратив, ас.",
@@ -34,6 +34,31 @@
 "address":{"@type":"PostalAddress","streetAddress":"ул. Толе би, 128","addressLocality":"Алматы","addressCountry":"KZ"},
 "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"11:00","closes":"02:00"}],
 "sameAs":["https://www.instagram.com/saksaul_almaty_restaurant","https://2gis.kz/almaty/geo/70000001068942200"]}
+</script>
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-5WVBNKTQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  window.AW_CONV = {
+    phone: 'AW-18586401983/QTyeCJiOm7wdEL_5155F',
+    contact: 'AW-18586401983/NBdNCLW3nLwdEL_5155F',
+    form: 'AW-18586401983/6M9wCPvUlbwdEL_5155F'
+  };
+  function gtag_report_conversion(url, sendTo) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'conversion', {
+      'send_to': sendTo || window.AW_CONV.phone,
+      'value': 1.0,
+      'currency': 'USD',
+      'event_callback': callback
+    });
+    return false;
+  }
 </script>
 <script src="https://lead-bot.sultan-askarov-kz.workers.dev/t.js" data-site="hansaray" defer></script>
 </head>
@@ -691,6 +716,6 @@
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/vendor/SplitText.min.js" defer></script>
 <script src="assets/vendor/lenis.min.js" defer></script>
-<script src="script.js?v=20261118-1" defer></script>
+<script src="script.js?v=20261120-1" defer></script>
 </body>
 </html>
